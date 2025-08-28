@@ -7,7 +7,10 @@ const app = express();
 const PORT = 3000;
 
 // Serve static files (images)
-app.use("/images", express.static(path.join(__dirname, "public")));
+app.use("/images", (req, res, next) => {
+    console.log(`Serving image: ${req.url}`);
+    next();
+}, express.static(path.join(__dirname, "public")));
 
 // Route to return JSON list
 app.get("/api/items", (req, res) => {
@@ -15,6 +18,7 @@ app.get("/api/items", (req, res) => {
 });
 
 app.get("/api/appertize", (req, res) => {
+    console.log("Appertize endpoint hit");
     res.json(appertize);
 });
 
